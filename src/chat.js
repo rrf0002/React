@@ -2,26 +2,43 @@
 import './chat.css';
 import React from 'react';
 import flecha from './flecha.png';
+import flechasalir from './flechasalir.png';
+import vaciarchat from './basura.png';
+function Main(props) {
+  if (localStorage.getItem("usuario")==props.usuario) {
+    return(
+      <div id='mensajemio'>
+      <div id='letras'>{props.frase}</div>
+    </div>
+    )
+  }
+  else{
+    return(
+      <div id='mensaje'>
+      <div id='colorpersonas'>{props.usuario}</div>
+      {props.frase}
+      </div>
+      )
+  }
 
- 
+}
 
 class Chat extends React.Component{
   constructor(props){
     super(props);
-    this.state={value:"", valor : "", valor_usuario : "", comentarios:[]}
+    this.state={value:"", valor : "", comentarios:[]}
  
     this.cambio=this.cambio.bind(this);
     this.insertar=this.insertar.bind(this);
     this.componentDidMount=this.componentDidMount.bind(this);
-    this.cambioUsuario=this.cambioUsuario.bind(this);
+    
   }
   cambio(event){
     this.setState({valor:event.target.value});
  
   }
-  cambioUsuario(event){
-    this.setState({valor_usuario:event.target.value});
-    
+  flecha(event){
+    window.location.href="/";
  
   }
   componentDidMount(){
@@ -36,17 +53,15 @@ class Chat extends React.Component{
     .then(
       (result)=>{
         this.setState({valor : ""});
-        this.setState({valor_usuario : ""});
         this.setState({comentarios: result});
-        
- 
+         
       }
     )
   }
   insertar(){
     var datos = new FormData;
     datos.append('mensaje', this.state.valor)
-    datos.append('usuario', this.state.valor_usuario)
+    datos.append('usuario', localStorage.getItem("usuario"))
  
     fetch("http://localhost/Chat/escribir.php",{
     method:'POST',
@@ -63,30 +78,52 @@ class Chat extends React.Component{
     )
  
   }
+  vaciarchat(){
+    fetch("http://localhost/Chat/vaciarchat.php",{
+    
+  }
+  ).then(
+    res =>
+    res.json()
+    
+  )
+  
+  .then(
+    (result)=>{
+      
+       window.location.reload();
+    }
+  )
+}
   render(){
     return(
       <div className='App'>
-        <header id='cabecera'>
-            <div >
-                <h1 id='titulo'>Hola</h1>
-            </div>
-        </header>
+        
         <body>
+            
             <div id='estructura'>
-                
+            <div id='arriba'>
+            
+            <img src={flechasalir} id='flechasalir'onClick={this.flecha}></img>
+            <h1 id='titulo'>{localStorage.getItem("usuario")}</h1>
+            <img src={vaciarchat} id='basura'onClick={this.vaciarchat}></img>
+            </div>
                 <div id='cuerpo'>
-                {this.state.comentarios.map(mostrar=>(<li id='quitarpunto' key={mostrar.num_mensaje}>{mostrar.usuario}:{mostrar.mensaje}</li>))}
+                <div>
+                {this.state.comentarios.map((comentarios)=><Main usuario={comentarios.usuario} frase={comentarios.mensaje}/>)}
+
+                  
+                  </div>
                 </div>
                 <div id='abajo'>
-                <a href='/Login'>login</a>
-                <input type="text" id='usuario' value={this.state.valor_usuario}name='usuario' placeholder='Usuario' onChange={this.cambioUsuario}/> 
-                <input type="text" id='escribir' name='comentario' value={this.state.valor} onChange={this.cambio}/>
+                                                
+                <input type="text" id='escribir' placeholder='Mensaje' name='comentario' value={this.state.valor} onChange={this.cambio}/>
                 <img src={flecha} id='mandar' onClick={this.insertar}></img>
                 </div>
             </div>
         </body>
       </div>
     );
-  }
+  } 
   }
   export default Chat;

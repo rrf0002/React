@@ -5,10 +5,11 @@ class Login extends React.Component{
         
     constructor(props){
         super(props);
-        this.state={value:"",contra:"",usuario:"",comentarios:[]} 
+        this.state={value:"",contra:"",usuario:"",malinicio:""} 
         this.cambiousuario=this.cambiousuario.bind(this);
         this.cambiocontra=this.cambiocontra.bind(this);
         this.subir=this.subir.bind(this);
+        this.iniciar=this.iniciar.bind(this);
     }
     cambiousuario(event){
         this.setState({usuario:event.target.value})
@@ -18,7 +19,7 @@ class Login extends React.Component{
         this.setState({contra:event.target.value})
         
     }
-    iniciar(event){
+    iniciar(){
         var datos = new FormData();
         datos.append('usuario',this.state.usuario);
         datos.append('contra',this.state.contra);
@@ -27,21 +28,24 @@ class Login extends React.Component{
             method: 'POST',
             body: datos
         })
-        .then( 
-            res =>
-            res.json()
-            
-        )
-        .then(
-            (result)=>{
-              this.setState({contra : ""}); 
-              this.setState({usuario : ""});
-              this.setState({comentarios: result});
-              
-       
+        .then(res=>res.json())
+        .then( (result)=>{
+            if(result=="Funciona"){
+                localStorage.setItem("usuario",this.state.usuario);
+                window.location.href="/chat";
             }
-          )
+            
+        },
+        (error)=>{
+            console.log('NO es correcto');  
+            this.setState({malinicio:"Inicio de sesion incorrecto"})
+            this.setState({contra : ""}); 
+            
+        }
+        )
+        
     }
+    
     subir (){
         var datos = new FormData();
         datos.append('usuario',this.state.usuario);
@@ -58,35 +62,45 @@ class Login extends React.Component{
         )
         .then(
             (result)=>{
-              this.setState({contra : ""}); 
+                if(result=="Funciona"){
+                    this.setState({contra : ""}); 
               this.setState({usuario : ""});
-              this.setState({comentarios: result});
-              
-       
+              this.setState({malinicio:""})
+                }
+                if(result=="No disponible"){
+                this.setState({usuario : ""});
+                this.setState({contra : ""}); 
+                this.setState({malinicio:"Ese usuario ya esta registrado"})
+                }
             }
+            
           )
-    } 
+        } 
 render(){
     return(
-        <div >      
-            <div class="container p-4" >
-                <div class="row" >
-                    <div class="col-md-4">
-                        <div class="card card-body">
+        <div id='login'>      
+            <div className="container p-4" >
+                <div className="row" >
+                    <div className="col-md-4">
+                        <div className="card card-body">
                             
-                                <div class="form-group">
-                                    <input type="text" value={this.state.usuario} name='usuario' class="form-control" onChange={this.cambiousuario} placeholder="Usuario" autofocus required></input>
+                                <div className="form-group">
+
+                                    <input type="text"  value={this.state.usuario}  name='usuario' className="form-control" onChange={this.cambiousuario} placeholder="Usuario" autofocus required></input>
+                                </div>
+                                ㅤ
+                                <div className="form-group">
+                                    <input type="password" name="contra" value={this.state.contra} className="form-control" onChange={this.cambiocontra} placeholder="Contraseña" autofocus required></input>
+                                    <span class="badge bg-danger">{this.state.malinicio}</span>
                                 </div>
                                 <br/>
-                                <div class="form-group">
-                                    <input type="password" name="contra" value={this.state.contra} class="form-control" onChange={this.cambiocontra} placeholder="Contraseña" autofocus required></input>
-                                </div>
-                                <br/>
-                                <button onClick={this.iniciar} class="btn btn-success btn-block" name="guardar">Iniciar sesión</button>ㅤ
-                                <button onClick={this.subir} class="btn btn-success btn-block">Registrarme</button>
+                                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                <button onClick={this.iniciar} className="btn btn-success btn-block" name="guardar">Iniciar sesión</button>
+                                ㅤ
+                                <button onClick={this.subir} className="btn btn-success btn-block">Registrarme</button>
                                 
-                                <a href='/'>Chat</a>
-                            
+                                
+                                </div>
                         </div>
                     </div>
                 </div>
