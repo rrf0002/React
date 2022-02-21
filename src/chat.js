@@ -44,7 +44,9 @@ class Chat extends React.Component{
     window.location.href="/";
     localStorage.setItem("usuario","");
   }
+  
   componentDidMount(){
+    
     fetch("http://localhost/Chat/mostrar.php",{
  
     }
@@ -57,13 +59,13 @@ class Chat extends React.Component{
       (result)=>{
         this.setState({valor : ""});
         this.setState({comentarios: result});
-         
+        var scroll = document.getElementById("cuerpo");
+        scroll.scrollTop = scroll.scrollHeight;
       }
     )
   }
   insertar(){
-    var scroll = document.getElementById("cuerpo");
-    scroll.scrollTop = scroll.scrollHeight;
+    
     if(localStorage.getItem("usuario")==""){
       alert ("Tienes que estar registrado");
       window.location.href="/";
@@ -83,6 +85,7 @@ class Chat extends React.Component{
     .then(
       (result)=>{
         this.componentDidMount()
+        
       }
     )
  
