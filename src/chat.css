@@ -4,8 +4,8 @@
 #titulo{
     color: white;
     font-size: 20px;
-    padding-top: 1.5%;
-    
+    padding-top: 1.2%;
+    padding-left: 0.4%;
 }
 
 #estructura{
@@ -30,7 +30,6 @@
     width: 100%;
     height: 400px;
     overflow-y: scroll;
-    scroll-behavior: smooth;
     background-image: url("wassap.jpg");
     
 }
@@ -51,42 +50,55 @@
     margin-top: 25px;
     margin-left: 50px;
     font-size: 17px;
+    border-radius: 20px;
+    padding-left: 10px; 
 }
 
 #mandar{
-    margin-top: 23px;
+    margin-top: 25px;
     margin-left: 10px;
-    width: 33px;
-    height: 33px;
+    width: 30px;
+    height: 30px;
 }
 #quitarpunto{
     list-style: none;
 }
 #mensajemio{
-    width: 30%;
+    color: white;
+    margin: 2px;   
+    padding: 3px;
+    min-height: 40px;
+    display: flex;
+    justify-content: end;
+    word-break: break-word;
+}
+#letras{
+    min-width: 120px;
+    text-align: left;
     border: 2px #00A884 solid;
     background-color: #00A884;
     border-radius: 10px;
-    color: white;
-    margin: 2px;
-    margin-left: 69.5%;
-    padding: 3px;
-    align-items: stretch;
-    word-break: break-all;
+    padding: 4px;
+
 }
-#letras{
-    text-align: left;
-}
+
 #mensaje{
-    width: 30%;
-    border: 2px #3C3C3C solid;
-    background-color: #3C3C3C;
-    border-radius: 10px;
+    
+    display: flex;
+    justify-content: initial;
     margin: 2px;
     margin-left: 1.5%;
     padding-left: 6px;
     color: white;
-    word-break: break-all;
+    word-break: break-word;
+    
+}
+#mensajeusuarios{
+    padding: 4px;
+    min-width: 120px;
+    border: 2px #3C3C3C solid;
+    background-color: #3C3C3C;
+    border-radius: 10px;
 }
 #soyyo{
     background-color: aqua;
@@ -100,7 +112,7 @@
     padding: 8px;
 }
 #flechasalir:hover{
-    transform: scaleY(1.2);
+    transform: scaleY(1.15);
     cursor: pointer;
 }
 #login{
@@ -109,13 +121,19 @@
     
 }
 #basura{
-    margin-top: 10px;
-    margin-left: 38%;
-    width: 22px;
-    height: 30px;
+    margin-top: 8px;
+    margin-left: 37.5%;
+    width: 24px;
+    height: 34px;
     position: absolute;
 }
 #basura:hover{
     transform: scale(1.1);
     cursor: pointer;
 }
+#tiempo{
+    font-size: 8px;
+    float: right;
+    padding-right: 5px;
+}
+

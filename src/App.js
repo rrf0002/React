@@ -11,15 +11,10 @@ export default function App(){
   return (
   <BrowserRouter>
       <Routes>
-        <Route path="/" element={< Login/>} />
-        
-        <Route path="/chat" element={<Chat />} >
-
-        
-        
-          
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/" element={<Login />} >
         </Route>
     </Routes>
   </BrowserRouter>
   )
-}
+};
